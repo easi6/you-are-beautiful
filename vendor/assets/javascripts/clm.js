@@ -27,6 +27,7 @@ var clm = {
 		var currentPositions = [];
 		var previousParameters = [];
 		var previousPositions = [];
+		var findPositions = [];
 		
 		var patches = [];
 		var responses = [];
@@ -35,6 +36,8 @@ var clm = {
 		var responseMode = 'single';
 		var responseList = ['raw'];
 		var responseIndex = 0;
+		var testCanvas = document.createElement('canvas');
+		var debug = true;
 		
 		/*
 		It's possible to experiment with the sequence of variances used for the finding the maximum in the KDE.
@@ -120,6 +123,7 @@ var clm = {
 
 			sketchW = sketchCanvas.width = modelWidth + (searchWindow-1) + patchSize-1;
 			sketchH = sketchCanvas.height = modelHeight + (searchWindow-1) + patchSize-1;
+
 			
 			if (model.hints && mosseFilter && left_eye_filter && right_eye_filter && nose_filter) {
 				//var mossef_lefteye = new mosseFilter({drawResponse : document.getElementById('overlay2')});
@@ -301,7 +305,7 @@ var clm = {
 			var croppedPatches = [];
 			var ptch, px, py;
 						
-			if (first) {
+			if (true) {
 				// do viola-jones on canvas to get initial guess, if we don't have any points
 				var gi = getInitialPosition(element, box);
 				if (!gi) {
@@ -319,6 +323,7 @@ var clm = {
 				
 				first = false;
 			} else {
+			  console.log("not first!");
 				facecheck_count += 1;
 				
 				if (params.constantVelocity) {
@@ -361,7 +366,7 @@ var clm = {
 			if (scoringWeights && (facecheck_count % 10 == 0)) {
 				if (!checkTracking()) {
 					// reset all parameters
-					first = true;
+					//first = true;
 					scoringHistory = [];
 					for (var i = 0;i < currentParameters.length;i++) {
 						currentParameters[i] = 0;
@@ -614,12 +619,17 @@ var clm = {
 		this.reset = function() {
 			first = true;
 			scoringHistory = [];
+			findPositions = [];
 			for (var i = 0;i < currentParameters.length;i++) {
 				currentParameters[i] = 0;
 				previousParameters = [];
 			}
 			runnerElement = undefined;
 			runnerBox = undefined;
+			if (!debug) {
+        debug = true;
+        document.getElementById('text').removeChild(testCanvas);
+      }
 		}
 
 		/*
@@ -681,6 +691,14 @@ var clm = {
 				return currentPositions;
 			}
 		}
+
+		this.getFindPositions = function() {
+		  if (first) {
+		    return false;
+      } else {
+        return findPositions;
+      }
+    }
 		
 		/*
 		 *	get parameters of current model fit
@@ -893,7 +911,40 @@ var clm = {
 			canvas.width = el.width;
 			canvas.height = el.height;
 			var cc = canvas.getContext('2d');
+			// add last position?
 			cc.drawImage(el, 0, 0, el.width, el.height);
+
+      if (debug) {
+        testCanvas = document.createElement('canvas');
+        testCanvas.width = el.width;
+        testCanvas.height = el.height;
+        testCanvas.getContext('2d').fillStyle = "#ffffff";
+        testCanvas.getContext('2d').drawImage(el, 0, 0, el.width, el.height);
+        document.getElementById('text').appendChild(testCanvas);
+        debug = false;
+      }
+
+      // 10, 20 번째 element 가져와서 지워버리자!!!!
+      if (findPositions.length > 0) {
+        cc.fillStyle = "#ffffff";
+        /* 
+        console.log("findpositions.length > 0!");
+        console.log("length = ");
+        console.log(findPositions.length);
+        */
+        for(var i=0; i<findPositions.length; i++) {
+          var ele_10 = findPositions[i][10];
+          var ele_20 = findPositions[i][20];
+         // console.log(ele_10);
+         // console.log(ele_20);
+          cc.fillRect(ele_20[0], ele_20[1], ele_10[0] - ele_20[0], ele_10[1] - ele_20[1]);
+          testCanvas.getContext('2d').fillRect(ele_20[0], ele_20[1], ele_10[0] - ele_20[0], ele_10[1] - ele_20[1]);
+        }
+      }
+			//document.getElementById('container').appendChild(canvas);
+			//cc.fillRect(255, 91, 30, 30);
+			//cc.fillRect(482, 110, 30, 30);
+
 			
 			// do viola-jones on canvas to get initial guess, if we don't have any points
 			/*var comp = ccv.detect_objects(
@@ -902,6 +953,8 @@ var clm = {
 			
 			var jf = new jsfeat_face(canvas);
 			var comp = jf.findFace();
+			console.log("detectPosition!")
+			console.log(comp);
 			
 			if (comp.length > 0) {
 				candidate = comp[0];
@@ -1151,6 +1204,11 @@ var clm = {
 			}
 		
 			currentPositions = calculatePositions(currentParameters, true);
+			console.log("current positions! ");
+			//console.log(currentPositions);
+
+			findPositions.push(currentPositions);
+			//console.log(findPositions);
 			
 			return [scaling, rotation, translateX, translateY];
 		}
