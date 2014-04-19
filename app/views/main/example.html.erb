@@ -14,7 +14,7 @@
   </div>
   <br/>
   <%= form_for(@face, :url => upload_path) do |f| %>
-    얼굴 사진 올리기 <%= f.file_field :photo %>
+    얼굴 사진 올리기 <%= f.file_field :photo, :class => "btn btn-primary" %>
     한마디 남기기 <%= f.text_area :message %>
     <%= f.hidden_field :metadata %>
   <% end %>
