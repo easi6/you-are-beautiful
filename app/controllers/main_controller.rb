@@ -42,6 +42,23 @@ class MainController < ApplicationController
 
   # OAUTH
   def oauth_with_facebook
+    # find
+    face = Face.find(params[:face_id])
+
+    # exception
+    if face.nil?
+      flash[:error] = "페이스북에 공유하는 과정에서 문제가 발생했습니다.#NOT_EXIST_FACE"
+      redirect_to example_path
+      return
+    end
+
+    # update exception
+    unless face.update_attribute(:message, params[:face][:message])
+      flash[:error] = "페이스북에 공유하는 과정에서 문제가 발생했습니다.#CANNOT_UPDATE_FACE"
+      redirect_to example_path
+      return
+    end
+
     # init
     callback_url = "#{request.protocol}#{request.host_with_port}#{share_with_facebook_path(params[:face_id])}"
     @oauth = Koala::Facebook::OAuth.new(Facebook::APP_ID, Facebook::SECRET, callback_url)
@@ -63,6 +80,7 @@ class MainController < ApplicationController
     if access_token.nil? || access_token.empty?
       flash[:error] = "페이스북에 공유하는 과정에서 문제가 발생했습니다.#GET_ACCESS_TOKEN"
       redirect_to face_path(params[:face_id])
+      return
     end
     @graph = Koala::Facebook::API.new(access_token)
 
@@ -73,6 +91,7 @@ class MainController < ApplicationController
     if face.nil?
       flash[:error] = "페이스북에 공유하는 과정에서 문제가 발생했습니다.#NOT_EXIST_FACE"
       redirect_to example_path
+      return
     end
 
     # set data
@@ -85,6 +104,7 @@ class MainController < ApplicationController
     @graph.put_picture(file, "image/jpeg", {:message => message, :title => title}, "me")
     flash[:msg] = "페이스북에 사진이 공유되었습니다."
     redirect_to face_path(params[:face_id])
+    return
   end
 
   # DEMO PAGE

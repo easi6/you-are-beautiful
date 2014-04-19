@@ -10,6 +10,9 @@
 <p>
 <%= image_tag @face.photo.url(:converted), :class => "img-rounded", :style => "width: 100%" %>
 </p>
+<%= form_for(@face, :url => oauth_with_facebook_path(@face.id)) do |f| %>
+  <strong>한마디 남기기</strong>
+  <%= f.text_field :message, :style => "width: 100%; height: 50px;" %>
+  <%= f.submit "페이스북으로 공유하기", :class => "btn btn-primary btn-lg btn-block" %>
+<% end %>
 <p>
-<%= link_to "페이스북으로 공유하기", oauth_with_facebook_path(@face.id), :class => "btn btn-primary btn-lg btn-block" %>
-</p>
