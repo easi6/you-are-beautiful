@@ -83,3 +83,7 @@ body {
 #convergence {
   display : inline;
 }
+
+.bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger {
+  padding: 15px;
+}

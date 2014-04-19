@@ -20,16 +20,18 @@ module FaceConverter
   UGLY_IMAGES=[
     {"type" => IMAGE, "sub_type" => UGLY_EYE, "name" => "ugly-0.png", "width" => 60, "height" => 10},
     {"type" => IMAGE, "sub_type" => UGLY_SMILE, "name" => "ugly-1.png", "width" => 50, "height" => 50},
-    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-2.png", "width" => 80, "height" => 80}
+    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-2.png", "width" => 100, "height" => 100},
+    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-3.png", "width" => 100, "height" => 100},
+    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-4.png", "width" => 150, "height" => 135}
   ]
   LABEL_IMAGES=[
-    {"type" => IMAGE, "name" => "label-0.png", "width" => 50, "height" => 50},
-    {"type" => IMAGE, "name" => "label-1.png", "width" => 50, "height" => 50},
-    {"type" => IMAGE, "name" => "label-2.png", "width" => 50, "height" => 50},
-    {"type" => IMAGE, "name" => "label-3.png", "width" => 50, "height" => 50},
-    {"type" => IMAGE, "name" => "label-4.png", "width" => 50, "height" => 50},
-    {"type" => IMAGE, "name" => "label-5.png", "width" => 50, "height" => 50},
-    {"type" => IMAGE, "name" => "label-6.png", "width" => 50, "height" => 50}
+    {"type" => IMAGE, "name" => "label-0.png", "width" => 30, "height" => 30},
+    {"type" => IMAGE, "name" => "label-1.png", "width" => 30, "height" => 30},
+    {"type" => IMAGE, "name" => "label-2.png", "width" => 30, "height" => 30},
+    {"type" => IMAGE, "name" => "label-3.png", "width" => 30, "height" => 30},
+    {"type" => IMAGE, "name" => "label-4.png", "width" => 30, "height" => 30},
+    {"type" => IMAGE, "name" => "label-5.png", "width" => 30, "height" => 30},
+    {"type" => IMAGE, "name" => "label-6.png", "width" => 30, "height" => 30}
   ]
 
   def self.convert(file_name, metadata_str)
@@ -84,28 +86,31 @@ module FaceConverter
         #height: img.height
         
         if i == 0 # beautiful
-          x = "+#{position[33][X] - img["width"] / 2}"
-          y = "+#{position[21][Y] - img["height"]}"
-          size = "#{img["width"]}x#{img["height"]}"
+          ratio = (position[13][X].to_i - position[1][X].to_i).to_f / 100
+          x = "+#{position[33][X].to_i - img["width"].to_i * ratio / 2}"
+          y = "+#{position[21][Y].to_i - img["height"].to_i * ratio}"
+          size = "#{img["width"] * ratio}x#{img["height"] * ratio}"
         elsif i == metadata.length - 1 # ugly
           case img["sub_type"]
           when UGLY_EYE
             x = "+#{position[0][X]}"
             y = "+#{position[33][Y]}"
-            size = "#{position[14][X] - position[0][X]}x#{position[41][Y] - position[33][Y]}"
+            size = "#{position[14][X].to_i - position[0][X].to_i}x#{position[41][Y].to_i - position[33][Y].to_i}"
           when UGLY_SMILE
-            x = "+#{position[62][X] - img["width"] / 2}"
-            y = "+#{position[62][Y] - img["height"] / 2}"
+            x = "+#{position[62][X].to_i - img["width"].to_i / 2}"
+            y = "+#{position[62][Y].to_i - img["height"].to_i / 2}"
             size = "#{img["width"]}x#{img["height"]}"
           when UGLY_MASK
             x = "+#{position[0][X]}"
-            y = "+#{position[21][Y]}"
-            size = "#{position[13][X] - position[1][X]}x#{(position[7][Y] - position[62][Y]) / 2}"
+            y = "+#{position[21][Y] - (position[7][Y].to_i - position[62][Y].to_i) * 0.4}"
+            #size = "#{position[13][X] - position[1][X]}x#{(position[7][Y] - position[62][Y]) / 2}"
+            size = "#{position[13][X].to_i - position[1][X].to_i}x#{(position[7][Y].to_i - position[62][Y].to_i) * 2}"
           end
         else
-          x = "+#{position[33][X] - img["width"] / 2}"
-          y = "+#{position[21][Y] - img["height"] * 1.5}"
-          size = "#{img["width"]}x#{img["height"]}"
+          ratio = (position[13][X].to_i - position[1][X].to_i).to_f / 30
+          x = "+#{position[33][X].to_i - img["width"].to_i * ratio / 2}"
+          y = "+#{position[21][Y].to_i - img["height"].to_i * ratio * 1.5}"
+          size = "#{img["width"] * ratio}x#{img["height"] * ratio}"
         end
 
         #puts "composite -geometry #{size}#{x}#{y} #{merged} #{result} #{result}"
