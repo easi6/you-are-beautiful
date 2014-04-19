@@ -77,6 +77,7 @@ class MainController < ApplicationController
 
   # DEMO PAGE
   def example
+    @face = Face.new
   end
 
   # ABOUT PAGE

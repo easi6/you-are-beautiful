@@ -32,7 +32,7 @@ var jsfeat_face = function(image) {
                   
     jsfeat.imgproc.grayscale(imageData.data, img_u8.data);
     
-    jsfeat.imgproc.equalize_histogram(img_u8, img_u8);
+   // jsfeat.imgproc.equalize_histogram(img_u8, img_u8);
     
     jsfeat.imgproc.compute_integral_image(img_u8, ii_sum, ii_sqsum, null);
 

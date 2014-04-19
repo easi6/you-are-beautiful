@@ -1,21 +1,19 @@
 <div id="content">
-  <h2>Face tracking in images</h2>
+  <h2>미남이시네요</h2>
   <div id="container">
     <canvas id="image" width="625" height="500"></canvas>
     <canvas id="overlay" width="625" height="500"></canvas>
   </div>
   <br/>
-  <input type="button" class="btn" value="start" onclick="animate()"></input>
-  <input type="button" class="btn" value="manually select face" onclick="selectBox()"></input>
-  <input type="file" class="btn" id="files" name="files[]" />
-  <p id="convergence"></p>
-  <div id="text">
-    <p>This is an example of precise face-tracking in an image using the javascript library <a href="https://github.com/auduno/clmtrackr"><em>clmtrackr</em></a>. To try it out, simply click start.</p>
-    <span id="loadimagetext"><p>To try it out with your own image, choose a file above by clicking "choose file". If the tracking has problems, try selecting the face in the image manually by clicking "manually select face", and click and hold to drag a square around the face in the image.</p></span>
-  </div>
-  <p>The image is from the <a href="http://www-prima.inrialpes.fr/FGnet/data/01-TalkingFace/talking_face.html‎">FG-net Talking Face</a> project</p>
-  <a href="https://github.com/auduno/clmtrackr"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
-
+  <%= form_for(@face, :url => upload_path) do |f| %>
+    Photo: <%= f.file_field :photo %>
+    Message: <%= f.text_area :message %>
+    Metadata: <%= f.text_area :metadata %>
+  <% end %>
+  <input type="button" class="btn" value="analysis start" onclick="animate()"></input>
+  <!--  <input type="button" class="btn" value="manually select face" onclick="selectBox()"></input> -->
+  <input type="button" id="upload_btn" class="btn" value="Upload" onclick="upload()"></input>
+  <!--  <input type="file" class="btn" id="files" name="files[]" /> -->
   <script>
     var cc = document.getElementById('image').getContext('2d');
     var overlay = document.getElementById('overlay');
@@ -26,19 +24,24 @@
       cc.drawImage(img,0,0,960, 600);
     };
     img.src = 'demo/taehee.jpg';
+    $('#upload_btn').attr('disabled','disabled');
 
     var ctrack = new clm.tracker({stopOnConvergence : true, scoreThreshold : 0.5});
     ctrack.init(pModel);
 
+    /*
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
     document.getElementById('container').appendChild( stats.domElement );
+    */
 
     var drawRequest;
 
     function animate(box) {
+      overlayCC.clearRect(0, 0, 720, 576);
       ctrack.reset();
+      ctrack.resetFindPositions();
       ctrack.start(document.getElementById('image'), box);
       drawLoop();
     }
@@ -59,11 +62,13 @@
       var allPos = ctrack.getFindPositions();
       console.log(allPos);
       if (allPos) { 
-        alert("Tracking done!"); 
+        //alert("Tracking done!"); 
         for(var i=0; i<allPos.length; i++) {
           var scr = score(allPos[i]);
           console.log(scr);
         }
+        if ($('#face_photo').val())
+          $('#upload_btn').removeAttr('disabled');
       }
       else {
         alert("The tracking had problems with finding a face in this image. Try selecting the face in the image manually.")
@@ -76,11 +81,13 @@
       var allPos = ctrack.getFindPositions();
       console.log(allPos);
       if (allPos) { 
-        alert("Tracking done!"); 
+        //alert("Tracking done!"); 
         for(var i=0; i<allPos.length; i++) {
           var scr = score(allPos[i]);
           console.log(scr);
         }
+        if ($('#face_photo').val())
+          $('#upload_btn').removeAttr('disabled');
       } else {
         alert("The tracking had problems converging on a face in this image. Try selecting the face in the image manually.")
       }
@@ -88,12 +95,21 @@
 
     // detect if tracker has converged
     document.addEventListener("clmtrackrConverged", function(event) {
-      document.getElementById('convergence').innerHTML = "CONVERGED";
-      document.getElementById('convergence').style.backgroundColor = "#00FF00";
+      //document.getElementById('convergence').innerHTML = "CONVERGED";
+      //document.getElementById('convergence').style.backgroundColor = "#00FF00";
       // stop drawloop
       console.log("coverged!");
       var allPos = ctrack.getFindPositions();
       console.log(allPos);
+      if (allPos) { 
+      //  alert("Tracking done!"); 
+        for(var i=0; i<allPos.length; i++) {
+          var scr = score(allPos[i]);
+          console.log(scr);
+        }
+        if ($('#face_photo').val())
+          $('#upload_btn').removeAttr('disabled');
+      }
       cancelRequestAnimFrame(drawRequest);
     }, false);
 
@@ -104,8 +120,8 @@
 
     // manual selection of faces (with jquery imgareaselect plugin)
     function selectBox() {
-      overlayCC.clearRect(0, 0, 720, 576);
-      document.getElementById('convergence').innerHTML = "";
+      //overlayCC.clearRect(0, 0, 720, 576);
+      //document.getElementById('convergence').innerHTML = "";
       ctrack.reset();
       $('#overlay').addClass('hide');
       $('#image').imgAreaSelect({
@@ -135,6 +151,7 @@
           var cc = canvas.getContext('2d');
           var img = new Image();
           img.onload = function() {
+            $('#upload_btn').attr('disabled','disabled');
             if (img.height > 500 || img.width > 700) {
               var rel = img.height/img.width;
               var neww = 700;
@@ -158,7 +175,8 @@
         })(fileList[fileIndex]);
         reader.readAsDataURL(fileList[fileIndex]);
         overlayCC.clearRect(0, 0, 720, 576);
-        document.getElementById('convergence').innerHTML = "";
+        //document.getElementById('convergence').innerHTML = "";
+        //ctrack.resetDebug();
         ctrack.reset();
       }
     }
@@ -179,10 +197,47 @@
         }
         loadImage();
       }
-      document.getElementById('files').addEventListener('change', handleFileSelect, false);
+      document.getElementById('face_photo').addEventListener('change', handleFileSelect, false);
     } else {
       $('#files').addClass("hide");
       $('#loadimagetext').addClass("hide");
+    }
+
+    function upload() {
+      console.log("upload!");
+      var allPos = ctrack.getFindPositions();
+      console.log(allPos);
+      if (allPos) { 
+      //  alert("Tracking done!"); 
+        var allData = [];
+        for(var i=0; i<allPos.length; i++) {
+          var scr = score(allPos[i]);
+          console.log(scr);
+          var data = {}
+          data.point = scr;
+          data.position = allPos[i];
+          allData.push(data); 
+        }
+        var sendData = JSON.stringify(allData);
+        $('#face_metadata').val(sendData);
+        //var formData = $('#new_face').serialize();
+        //console.log(formData);
+        $('#new_face').submit();
+        /*
+        $.ajax({
+          url: "/upload",
+          dataType: "JSON",
+          data: sendData,
+          type: "POST",
+          success: function (data) {
+            console.log(data);
+            },
+          error: function (e) {
+            console.log(e);
+          }
+        });
+        */
+      }
     }
   </script>
 </div>

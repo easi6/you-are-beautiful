@@ -37,7 +37,7 @@ var clm = {
 		var responseList = ['raw'];
 		var responseIndex = 0;
 		var testCanvas = document.createElement('canvas');
-		var debug = true;
+		var debug = false;
 		
 		/*
 		It's possible to experiment with the sequence of variances used for the finding the maximum in the KDE.
@@ -619,18 +619,21 @@ var clm = {
 		this.reset = function() {
 			first = true;
 			scoringHistory = [];
-			findPositions = [];
+			//findPositions = [];
 			for (var i = 0;i < currentParameters.length;i++) {
 				currentParameters[i] = 0;
 				previousParameters = [];
 			}
 			runnerElement = undefined;
 			runnerBox = undefined;
+		}
+
+		this.resetDebug = function () {
 			if (!debug) {
         debug = true;
         document.getElementById('text').removeChild(testCanvas);
       }
-		}
+    }
 
 		/*
 		 *	draw model on given canvas
@@ -698,6 +701,10 @@ var clm = {
       } else {
         return findPositions;
       }
+    }
+
+    this.resetFindPositions = function() {
+      findPositions = [];
     }
 		
 		/*
@@ -932,7 +939,8 @@ var clm = {
         console.log("length = ");
         console.log(findPositions.length);
         */
-        for(var i=0; i<findPositions.length; i++) {
+        var length = findPositions.length;
+        for(var i=0; i<length; i++) {
           var ele_10 = findPositions[i][10];
           var ele_20 = findPositions[i][20];
          // console.log(ele_10);
@@ -1207,6 +1215,8 @@ var clm = {
 			console.log("current positions! ");
 			//console.log(currentPositions);
 
+      console.log("score = ");
+      console.log(meanscore);
 			findPositions.push(currentPositions);
 			//console.log(findPositions);
 			
