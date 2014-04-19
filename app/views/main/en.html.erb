@@ -1,8 +1,44 @@
 <script type="text/javascript">
-  function popup(faceId) {
-
+  function documentHeight() {
+    return Math.max(
+        window.innerHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight
+    );
+  }
+  function popup(faceId, photoUrl) {
+    $('#en-modal').css('height', documentHeight());
+    $('#en-modal-img').attr('src', photoUrl);
+    $('#en-modal-container').css('marginTop', document.body.scrollTop + 220 + "px");
+    $('#en-modal-input').focus();
+    $('form').attr('action', '/oauth_with_facebook/' + faceId);
+    $('#en-modal').toggleClass('hide');
+  }
+  function hidePopup() {
+    $('#en-modal').toggleClass('hide');
   }
 </script>
+
+<div id="en-modal" class="hide">
+  <div id="en-modal-container">
+    <div class="en-modal-image">
+      <img src="" id="en-modal-img" />
+    </div>
+    <div class="en-modal-text">
+      <form accept-charset="UTF-8" action="/oauth_with_facebook/1" class="edit_face" id="edit_face_1" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="patch"></div>
+        <h5>enter a message for this photo</h5>
+        <div class="input-group" style="width: 290px;">
+          <input type="text" id="en-modal-input" name="face[message]" class="input-sm form-control">
+          <span class="input-group-btn">
+            <button type="submit" id="en-modal-submit-btn" class="btn-sm btn btn-primary">share</button>
+          </span>
+        </div><!-- /input-group -->
+      </form>
+    </div>
+  </div>
+  <div id="en-modal-back" onclick="hidePopup()">
+  </div>
+</div>
 
 <div class="row text-center" id="navbar">
   <h5>urbeautiful</h5>
