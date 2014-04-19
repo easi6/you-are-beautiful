@@ -36,3 +36,4 @@
 //= require ext_js/Filesaver.min
 //
 //= require bootstrap
+//= require scoring

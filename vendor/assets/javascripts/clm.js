@@ -366,7 +366,7 @@ var clm = {
 			if (scoringWeights && (facecheck_count % 10 == 0)) {
 				if (!checkTracking()) {
 					// reset all parameters
-					first = true;
+					//first = true;
 					scoringHistory = [];
 					for (var i = 0;i < currentParameters.length;i++) {
 						currentParameters[i] = 0;
@@ -1205,10 +1205,10 @@ var clm = {
 		
 			currentPositions = calculatePositions(currentParameters, true);
 			console.log("current positions! ");
-			console.log(currentPositions);
+			//console.log(currentPositions);
 
 			findPositions.push(currentPositions);
-			console.log(findPositions);
+			//console.log(findPositions);
 			
 			return [scaling, rotation, translateX, translateY];
 		}
