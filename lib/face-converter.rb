@@ -18,7 +18,11 @@ module FaceConverter
     {"type" => IMAGE, "name" => "beautiful-3.png", "width" => 100, "height" => 94}
   ]
   UGLY_IMAGES=[
-    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-2.png", "width" => 80, "height" => 80}
+    {"type" => IMAGE, "sub_type" => UGLY_EYE, "name" => "ugly-0.png", "width" => 60, "height" => 10},
+    {"type" => IMAGE, "sub_type" => UGLY_SMILE, "name" => "ugly-1.png", "width" => 50, "height" => 50},
+    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-2.png", "width" => 100, "height" => 100},
+    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-3.png", "width" => 100, "height" => 100},
+    {"type" => IMAGE, "sub_type" => UGLY_MASK, "name" => "ugly-4.png", "width" => 150, "height" => 135}
   ]
   LABEL_IMAGES=[
     {"type" => IMAGE, "name" => "label-0.png", "width" => 30, "height" => 30},
