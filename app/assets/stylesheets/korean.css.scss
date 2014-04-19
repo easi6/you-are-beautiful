@@ -1,0 +1,65 @@
+/* Sticky footer styles
+ * -------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  background: image-url("heart-background.png");
+}
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+/* Custom page CSS
+ * -------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+
+}
+.container .text-muted {
+  margin: 20px 0;
+
+}
+
+/* for clmtrakr */
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+}
+
+#container {
+  position : relative;
+  width : 700px;
+  height : 500px;
+  /*margin : 0px auto;*/
+}
+
+#sketch {
+  display: none;
+}
+
+#filter {
+  display: none;
+}
+
+#convergence {
+  display : inline;
+}
+
+.bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger {
+  padding: 15px;
+}

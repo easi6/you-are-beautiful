@@ -1,0 +1,50 @@
+.container {
+  width: 100%;
+}
+
+body {
+  background-color: #F8F8F8;
+  width: 100%;
+}
+
+#upload {
+  max-width: 430px;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  img {
+    width: 100%;
+  }
+}
+
+#faces {
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+#navbar {
+  background: black;
+  h5 {
+    color: white;
+  }
+}
+
+.english-face {
+  position: relative;
+  border: 1px solid #EBEBEB;
+  padding: 10px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -mozilla-border-radius: 3px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  img {
+    width: 100%;
+  }
+  .fb-share-btn {
+    width: 50px;
+    position: absolute;
+    top: 8px;
+    right: -50px;
+  }
+}

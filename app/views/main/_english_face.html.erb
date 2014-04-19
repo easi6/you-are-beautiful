@@ -1,0 +1,6 @@
+<div class="english-face">
+  <%= image_tag f.photo.url(:converted) %>
+  <br>
+  <%= image_tag "en-description.png" %>
+  <%= image_tag "en-facebook-share.png", :onclick => "popup(#{f.id})", :class => "fb-share-btn" %>
+</div>

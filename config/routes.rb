@@ -9,6 +9,7 @@ Fb::Application.routes.draw do
 
   get "example" => "main#example"
   get "about" => "main#about"
+  get "en" => "main#en"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -3,6 +3,10 @@ class MainController < ApplicationController
     @face = Face.new
   end
 
+  def en
+    @faces = Face.all
+  end
+
   # data format
   # {
   #  "photo" : FILE,

@@ -1,0 +1,19 @@
+<script type="text/javascript">
+  function popup(faceId) {
+
+  }
+</script>
+
+<div class="row text-center" id="navbar">
+  <h5>urbeautiful</h5>
+</div>
+
+<div class="row" id="upload">
+  <%= image_tag "en-upload-btn.png" %>
+</div>
+
+<div class="row" id="faces">
+  <% @faces.each do |f| %>
+    <%= render :partial => "main/english_face", :locals => {:f => f} %>
+  <% end %>
+</div>
