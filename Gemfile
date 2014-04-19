@@ -46,3 +46,5 @@ end
 gem 'thin'
 gem 'bootstrap-sass'
 gem 'jquery-migrate-rails'
+gem 'paperclip'
+gem 'koala'

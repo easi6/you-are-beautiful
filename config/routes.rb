@@ -1,6 +1,15 @@
 Fb::Application.routes.draw do
   root :to => "main#home"
+
+  post "upload" => "main#upload"
+  get "oauth_with_facebook/:face_id" => "main#oauth_with_facebook"
+  get "share_with_facebook/:face_id" => "main#share_with_facebook"
+
+  get "face/:face_id" => "main#face"
+
   get "example" => "main#example"
+  get "about" => "main#about"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
