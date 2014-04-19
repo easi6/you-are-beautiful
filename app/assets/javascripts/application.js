@@ -10,9 +10,6 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require bootstrap
 //= require ext_js/utils
 //= require ext_js/dat.gui.min
 //= require ext_js/jsfeat-min
@@ -28,4 +25,14 @@
 //= require svmfilter_webgl
 //= require svmfilter_fft
 //= require mossefilter
+//
+//= require jquery
+//= require jquery_ujs
+//= require jquery-migrate-min
+//
 //= require ext_js/Stats
+//= require ext_js/jquery.imgareaselect.pack
+//= require ext_js/BlobBuilder.min
+//= require ext_js/Filesaver.min
+//
+//= require bootstrap
