@@ -1,3 +1,9 @@
+<% unless flash[:error].nil? %>
+  <p class="bg-danger"><%= flash[:error] %></p>
+<% end %>
+<% unless flash[:msg].nil? %>
+  <p class="bg-success"><%= flash[:msg] %></p>
+<% end %>
 <div id="content">
   <h2>Face tracking in images</h2>
   <div id="container">
