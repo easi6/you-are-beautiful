@@ -2,5 +2,5 @@
   <%= image_tag f.photo.url(:converted) %>
   <br>
   <%= image_tag "en-description.png" %>
-  <%= image_tag "en-facebook-share.png", :onclick => "popup(#{f.id})", :class => "fb-share-btn" %>
+  <%= image_tag "en-facebook-share.png", :onclick => "popup(#{f.id}, '#{f.photo.url(:converted)}')", :class => "fb-share-btn" %>
 </div>
