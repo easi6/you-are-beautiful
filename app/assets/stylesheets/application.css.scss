@@ -22,6 +22,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  background: image-url("heart-background.png");
 }
 #footer {
   position: absolute;
@@ -63,13 +64,6 @@ body {
   height : 500px;
   /*margin : 0px auto;*/
 
-}
-
-#content {
-  margin-top : 70px;
-  margin-left : 100px;
-  margin-right : 100px;
-  max-width: 950px;
 }
 
 #sketch {

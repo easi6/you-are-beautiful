@@ -4,6 +4,9 @@
 <% unless flash[:msg].nil? %>
   <p class="bg-success"><%= flash[:msg] %></p>
 <% end %>
+  <div class="logo">
+    <%= image_tag "hansome.jpg" %>
+  </div>
 <p>
 <%= image_tag @face.photo.url(:converted), :class => "img-rounded", :style => "width: 100%" %>
 </p>
