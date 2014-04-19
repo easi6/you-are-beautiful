@@ -1,5 +1,5 @@
 class Face < ActiveRecord::Base
-  has_attached_file :photo, :styles => {:converted => ""}
+  has_attached_file :photo, :styles => {:converted => "700x500>"}
 
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
 
