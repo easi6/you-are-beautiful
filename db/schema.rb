@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20140419063816) do
 
   create_table "faces", force: true do |t|
     t.text     "message",            default: ""
+    t.text     "metadata",           default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "photo_file_name"

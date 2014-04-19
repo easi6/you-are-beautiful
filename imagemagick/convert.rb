@@ -6,6 +6,8 @@ x = "+190"
 y = "+145"
 merged = "beautiful-0.png"
 `composite -geometry #{size}#{x}#{y} #{merged} #{faces} #{result}`
+puts "composite -geometry #{size}#{x}#{y} #{merged} #{faces} #{result}"
+return
 
 size = "60x10"
 x = "+210"

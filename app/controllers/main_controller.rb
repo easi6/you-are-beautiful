@@ -1,5 +1,6 @@
 class MainController < ApplicationController
   def home
+    @face = Face.new
   end
 
   # data format
@@ -8,24 +9,21 @@ class MainController < ApplicationController
   #  "message" : TEXT,
   #  "metadata" : '[{
   #     "point" : NUMBER
-  #     "head" : [X, Y],
-  #     "eyes" : [X, Y, WIDTH, HEIGHT]
+  #     "position" : [[X, Y], ...]
   #   },
   #   ...
   #  ]'
   # }
   def upload
-    face = Face.new(params[:face])
+    #face = Face.new(params[:face])
+    face = Face.new
+    face.message = params[:face][:message]
+    face.photo = params[:face][:photo]
+    face.metadata = params[:face][:metadata]
 
-    if face.save
-      metadata = JSON.parse(face.metadata)
-
-      require 'face-converter'
-      metadata = metadata.sort {|m| m["point"]}
-      metadata.each_with_index do |f, i|
-      end
-
-      render :json => {"face" => {"id" => face.id, "message" => face.message, "photo_url" => face.photo.url}}
+    require 'face-converter'
+    if face.save && FaceConverter.convert(face.photo.path, face.metadata)
+      render :json => {"face" => {"id" => face.id, "message" => face.message, "photo_url" => face.photo.url(:converted)}}
     else
       render :status => 500, :json => {"msg" => "얼굴 인식에 실패했습니다. #CANNOT_CONVERT"}
     end

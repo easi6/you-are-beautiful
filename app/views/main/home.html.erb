@@ -1,1 +1,6 @@
-<%= link_to "Example", example_path %>
+<%= form_for(@face, :url => upload_path) do |f| %>
+  Photo: <%= f.file_field :photo %>
+  Message: <%= f.text_area :message %>
+  Metadata: <%= f.text_area :metadata %>
+  <%= f.submit %>
+<% end %>
