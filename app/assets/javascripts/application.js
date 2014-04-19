@@ -1,4 +1,4 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
+// This is a manifest file that'll be compiled into application, which will include all the files
 // listed below.
 //
 // Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
@@ -12,5 +12,20 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require bootstrap
+//= require ext_js/utils
+//= require ext_js/dat.gui.min
+//= require ext_js/jsfeat-min
+//= require ext_js/frontalface
+//= require ext_js/jsfeat_detect
+//= require ext_js/numeric-1.2.6.min
+//= require ext_js/mosse
+//= require ext_js/left_eye_filter
+//= require ext_js/right_eye_filter
+//= require ext_js/nose_filter
+//= require models/model_pca_20_svm
+//= require clm
+//= require svmfilter_webgl
+//= require svmfilter_fft
+//= require mossefilter
+//= require ext_js/Stats

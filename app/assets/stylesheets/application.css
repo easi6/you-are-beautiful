@@ -8,6 +8,108 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require bootstrap
  *= require_self
- *= require_tree .
+ *= require imgareaselect-default
  */
+
+/* Sticky footer styles
+ * -------------------------------------------------- */
+html {
+    position: relative;
+      min-height: 100%;
+
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+
+}
+#footer {
+    position: absolute;
+      bottom: 0;
+        width: 100%;
+          /* Set the fixed height of the footer here */
+          height: 60px;
+            background-color: #f5f5f5;
+
+}
+
+
+/* Custom page CSS
+ * -------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container {
+    width: auto;
+      max-width: 680px;
+        padding: 0 15px;
+
+}
+.container .text-muted {
+    margin: 20px 0;
+
+}
+
+
+/* clmtrakr */
+body {
+  font-family: 'Lato';
+  background-color: #f0f0f0;
+  margin: 0px auto;
+  max-width: 1150px;
+}
+
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+}
+
+#container {
+  position : relative;
+  width : 700px;
+  height : 500px;
+  /*margin : 0px auto;*/
+
+  }
+
+  #content {
+    margin-top : 70px;
+    margin-left : 100px;
+    margin-right : 100px;
+    max-width: 950px;
+
+    }
+
+    #sketch {
+      display: none;
+
+      }
+
+      #filter {
+        display: none;
+
+        }
+
+        #convergence {
+          display : inline;
+
+          }
+
+          h2 {
+            font-weight : 400;
+
+            }
+
+            .btn {
+              font-family: 'Lato';
+              font-size: 16px;
+
+              }
+
+              .hide {
+                display : none;
+
+                }
