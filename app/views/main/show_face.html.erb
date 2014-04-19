@@ -1,0 +1,12 @@
+<% unless flash[:error].nil? %>
+  <p class="bg-danger"><%= flash[:error] %></p>
+<% end %>
+<% unless flash[:msg].nil? %>
+  <p class="bg-success"><%= flash[:msg] %></p>
+<% end %>
+<p>
+<%= image_tag @face.photo.url(:converted), :class => "img-rounded", :style => "width: 100%" %>
+</p>
+<p>
+<%= link_to "페이스북으로 공유하기", oauth_with_facebook_path(@face.id), :class => "btn btn-primary btn-lg btn-block" %>
+</p>

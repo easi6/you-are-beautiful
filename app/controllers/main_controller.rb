@@ -23,9 +23,20 @@ class MainController < ApplicationController
 
     require 'face-converter'
     if face.save && FaceConverter.convert(face.photo.path, face.metadata)
-      render :json => {"face" => {"id" => face.id, "message" => face.message, "photo_url" => face.photo.url(:converted)}}
+      #render :json => {"face" => {"id" => face.id, "message" => face.message, "photo_url" => face.photo.url(:converted)}}
+      redirect_to face_path(face.id)
     else
-      render :status => 500, :json => {"msg" => "얼굴 인식에 실패했습니다. #CANNOT_CONVERT"}
+      #render :status => 500, :json => {"msg" => "얼굴 인식에 실패했습니다. #CANNOT_CONVERT"}
+      flash[:error] = "얼굴 인식에 실패했습니다.#CANNOT_CONVERT"
+      redirect_to example_path
+    end
+  end
+
+  def show_face
+    @face = Face.find(params[:face_id])
+    if @face.nil?
+      flash[:error] = "존재하지 않는 이미지입니다.#NOT_EXIST_FACE"
+      redirect_to example_path
     end
   end
 
@@ -61,17 +72,18 @@ class MainController < ApplicationController
     # exception
     if face.nil?
       flash[:error] = "페이스북에 공유하는 과정에서 문제가 발생했습니다.#NOT_EXIST_FACE"
-      redirect_to root_path
+      redirect_to example_path
     end
 
     # set data
     face_url = "#{request.protocol}#{request.host_with_port}#{face_path(params[:face_id])}"
     title = "미남이시네요"
     message = face.message + " 더 자세한 정보는 #{face_url}"
-    file = face.converted_file
+    file = face.converted_photo
 
     # share
     @graph.put_picture(file, "image/jpeg", {:message => message, :title => title}, "me")
+    flash[:msg] = "페이스북에 사진이 공유되었습니다."
     redirect_to face_path(params[:face_id])
   end
 
