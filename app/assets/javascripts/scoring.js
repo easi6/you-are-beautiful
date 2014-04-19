@@ -50,23 +50,49 @@ function score(position){
                         convertArrayToObj(position[31]),
                         convertArrayToObj(position[7]));                            
                               
+  //var ratioScore1 =lengthBtneye/rightEye;
+  //var ratioScore2 =noseLengthV/noseLengthW;
+  //var ratioScore3 =noseLengthV/noseToJaw;
+  //var ratioScore4 =lipLengthW/lipLengthV;
+  //var ratioScore5 =lowLip/upLip;
+  //var ratioScore6 =noseLengthW/rightEye;
+  //var ratioScore7 =faceHeight/faceWidth;
+
+  //var avg = 100;
 
 
-  var ratioScore1 = Math.abs(1-lengthBtneye/rightEye)*15;
-  var ratioScore2 = (Math.abs((noseLengthV/noseLengthW)-0.64))/0.64*15;
-  var ratioScore3 = (Math.abs(0.8-(noseLengthV/noseToJaw))/0.8)*15;
-  var ratioScore4 = (Math.abs(2-(lipLengthW/lipLengthV)))/2*4;
-  var ratioScore5 = Math.abs(1-(lowLip/upLip))*11;
-  var ratioScore6 = Math.abs(1-(noseLengthW/rightEye))*15;
-  var ratioScore7 = (Math.abs(0.809-(faceHeight/faceWidth))/0.809)*15;
 
-  var ratioScore1b = Math.abs(1-lengthBtneye/leftEye)*15;
-  var ratioScore6b = Math.abs(1-noseLengthW/leftEye)*15;
+  //var ratioScore1 = Math.abs(1-lengthBtneye/rightEye)*15;
+  //var ratioScore2 = (Math.abs((noseLengthV/noseLengthW)-0.64))/0.64*15;
+  //var ratioScore3 = (Math.abs(0.8-(noseLengthV/noseToJaw))/0.8)*15;
+  //var ratioScore4 = (Math.abs(2-(lipLengthW/lipLengthV)))/2*4;
+  //var ratioScore5 = Math.abs(1-(lowLip/upLip))*11;
+  //var ratioScore6 = Math.abs(1-(noseLengthW/rightEye))*15;
+  //var ratioScore7 = (Math.abs(0.809-(faceHeight/faceWidth))/0.809)*15;
 
-  var diff = Math.abs((ratioScore1+ratioScore6) - (ratioScore1b+ratioScore6b))*10;
+  //var ratioScore1b = Math.abs(1-lengthBtneye/leftEye)*15;
+  //var ratioScore6b = Math.abs(1-noseLengthW/leftEye)*15;
+
+  //var diff = Math.abs((ratioScore1+ratioScore6) - (ratioScore1b+ratioScore6b))*10;
+
+  //var sum = (ratioScore1+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6+ratioScore7)+(ratioScore1b+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6b+ratioScore7)
+  //var avg = (sum/2)+diff;
+  var ratioScore1 = 15-(Math.abs(1.43-lengthBtneye/rightEye)/1.43*15);
+  var ratioScore2 = 15-((Math.abs((noseLengthV/noseLengthW)-1.05))/1.05*15);
+  var ratioScore3 = 15-((Math.abs(0.52-(noseLengthV/noseToJaw))/0.52)*15);
+  var ratioScore4 = 4-((Math.abs(2.37-(lipLengthW/lipLengthV)))/2.37*4);
+  var ratioScore5 = 11-(Math.abs(1.76-(lowLip/upLip))/1.76*11);
+  var ratioScore6 = 15-(Math.abs(1.58-(noseLengthW/rightEye))/1.58*15);
+  var ratioScore7 = 15-((Math.abs(0.83-(faceHeight/faceWidth))/0.83)*15);
+
+  var ratioScore1b = 15-(Math.abs(1.43-lengthBtneye/leftEye)/1.43*15);
+  var ratioScore6b = 15-(Math.abs(1.58-noseLengthW/leftEye)/1.58*15);
+
+  var diff = 10-(Math.abs((ratioScore1+ratioScore6) - (ratioScore1b+ratioScore6b))*10);
 
   var sum = (ratioScore1+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6+ratioScore7)+(ratioScore1b+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6b+ratioScore7)
   var avg = (sum/2)+diff;
+
 
   console.log(ratioScore1);
   console.log(ratioScore2);
