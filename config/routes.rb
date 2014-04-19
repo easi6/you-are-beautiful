@@ -1,5 +1,5 @@
 Fb::Application.routes.draw do
-  root :to => "main#home"
+  root :to => "main#example"
 
   post "upload" => "main#upload"
   get "oauth_with_facebook/:face_id" => "main#oauth_with_facebook", :as => "oauth_with_facebook"
