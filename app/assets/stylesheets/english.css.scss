@@ -2,9 +2,34 @@
   width: 100%;
 }
 
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+}
+
+#container {
+  position : relative;
+  width : 700px;
+  height : 500px;
+  /*margin : 0px auto;*/
+}
 body {
   background-color: #F8F8F8;
   width: 100%;
+}
+
+#upload_file_container {
+  background-image: image-url("en-upload-btn.png");
+  width: 430px;
+  height: 149px;
+}
+
+#new_face input {
+  width: 430px;
+  height: 149px;
+  opacity: 0;
 }
 
 #upload {

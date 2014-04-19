@@ -9,7 +9,17 @@
 </div>
 
 <div class="row" id="upload">
-  <%= image_tag "en-upload-btn.png" %>
+<%= form_for(@face, :url => upload_en_path) do |f| %>
+  <div id="upload_file_container">
+    <%= f.file_field :photo, :class => "btn btn-primary" %>
+  </div>
+  <%= f.hidden_field :message %>
+  <%= f.hidden_field :metadata %>
+<% end %>
+  <div id="container" style="display:none;">
+    <canvas id="image" width="625" height="500"></canvas>
+    <canvas id="overlay" width="625" height="500"></canvas>
+  </div>
 </div>
 
 <div class="row" id="faces">
@@ -17,3 +27,199 @@
     <%= render :partial => "main/english_face", :locals => {:f => f} %>
   <% end %>
 </div>
+<script>
+  var cc = document.getElementById('image').getContext('2d');
+  var overlay = document.getElementById('overlay');
+  var overlayCC = overlay.getContext('2d');
+
+  var img = new Image();
+  img.onload = function() {
+    cc.drawImage(img,0,0,960, 600);
+  };
+  img.src = 'demo/taehee.jpg';
+
+  var ctrack = new clm.tracker({stopOnConvergence : true, scoreThreshold : 0.5});
+  ctrack.init(pModel);
+
+  var drawRequest;
+
+  function animate(box) {
+    ctrack.reset();
+    ctrack.resetFindPositions();
+    ctrack.start(document.getElementById('image'), box);
+    drawLoop();
+  }
+
+  function drawLoop() {
+    drawRequest = requestAnimFrame(drawLoop);
+    //overlayCC.clearRect(0, 0, 720, 576);
+    var curpos = ctrack.getCurrentPosition();
+    if (curpos) {
+      //console.log(curpos);
+      ctrack.draw(overlay);
+    }
+  }
+  // detect if tracker fails to find a face
+  document.addEventListener("clmtrackrNotFound", function(event) {
+    ctrack.stop();
+    var allPos = ctrack.getFindPositions();
+    console.log(allPos);
+    if (allPos) { 
+      //alert("Tracking done!"); 
+      for(var i=0; i<allPos.length; i++) {
+        var scr = score(allPos[i]);
+        console.log(scr);
+      }
+      upload();
+    }
+    else {
+        alert("얼굴 인식에 실패하였습니다. 다른 이미지를 선택해 주세요.");
+    }
+  }, false);
+
+  // detect if tracker loses tracking of face
+    document.addEventListener("clmtrackrLost", function(event) {
+    ctrack.stop();
+    var allPos = ctrack.getFindPositions();
+    console.log(allPos);
+    if (allPos) { 
+      //alert("Tracking done!"); 
+      for(var i=0; i<allPos.length; i++) {
+        var scr = score(allPos[i]);
+        console.log(scr);
+      }
+      upload();
+    } else {
+        alert("얼굴 인식에 실패하였습니다. 다른 이미지를 선택해 주세요.");
+    }
+  }, false);
+
+  // detect if tracker has converged
+  document.addEventListener("clmtrackrConverged", function(event) {
+    //document.getElementById('convergence').innerHTML = "CONVERGED";
+    //document.getElementById('convergence').style.backgroundColor = "#00FF00";
+    // stop drawloop
+    console.log("coverged!");
+    var allPos = ctrack.getFindPositions();
+    console.log(allPos);
+    if (allPos) { 
+    //  alert("Tracking done!"); 
+      for(var i=0; i<allPos.length; i++) {
+        var scr = score(allPos[i]);
+        console.log(scr);
+      }
+      upload();
+    } else {
+      alert("얼굴 인식에 실패하였습니다. 다른 이미지를 선택해 주세요.");
+    }
+    cancelRequestAnimFrame(drawRequest);
+  }, false);
+
+  // update stats on iteration
+  document.addEventListener("clmtrackrIteration", function(event) {
+    //stats.update();
+  }, false);
+
+  // function to start showing images
+  function loadImage() {
+    if (fileList.indexOf(fileIndex) < 0) {
+      var reader = new FileReader();
+      reader.onload = (function(theFile) {
+        return function(e) {
+        // check if positions already exist in storage
+
+        // Render thumbnail.
+        var canvas = document.getElementById('image')
+        var cc = canvas.getContext('2d');
+        console.log(cc);
+        var img = new Image();
+        img.onload = function() {
+          if (img.height > 500 || img.width > 700) {
+            var rel = img.height/img.width;
+            var neww = 700;
+            var newh = neww*rel;
+            if (newh > 500) {
+              newh = 500;
+              neww = newh/rel;
+            }
+            canvas.setAttribute('width', neww);
+            canvas.setAttribute('height', newh);
+            cc.drawImage(img,0,0,neww, newh);
+          } 
+          else {
+            canvas.setAttribute('width', img.width);
+            canvas.setAttribute('height', img.height);
+            cc.drawImage(img,0,0,img.width, img.height);
+          }
+          animate();
+        }
+          img.src = e.target.result;
+        };
+      })(fileList[fileIndex]);
+      reader.readAsDataURL(fileList[fileIndex]);
+      overlayCC.clearRect(0, 0, 720, 576);
+      //document.getElementById('convergence').innerHTML = "";
+      //ctrack.resetDebug();
+      ctrack.reset();
+    }
+  }
+
+  // set up file selector and variables to hold selections
+  var fileList, fileIndex;
+  if (window.File && window.FileReader && window.FileList) {
+    function handleFileSelect(evt) {
+      var files = evt.target.files;
+      fileList = [];
+      for (var i = 0;i < files.length;i++) {
+        if (!files[i].type.match('image.*'))
+          continue;
+        fileList.push(files[i]);
+      }
+      if (files.length > 0) {
+        fileIndex = 0;
+      }
+      loadImage();
+    }
+    document.getElementById('face_photo').addEventListener('change', handleFileSelect, false);
+  } else {
+    $('#files').addClass("hide");
+    $('#loadimagetext').addClass("hide");
+  }
+
+  function upload() {
+    console.log("upload!");
+    var allPos = ctrack.getFindPositions();
+    console.log(allPos);
+    if (allPos) { 
+    //  alert("Tracking done!"); 
+      var allData = [];
+      for(var i=0; i<allPos.length; i++) {
+        var scr = score(allPos[i]);
+        console.log(scr);
+        var data = {}
+        data.point = scr;
+        data.position = allPos[i];
+        allData.push(data); 
+      }
+      var sendData = JSON.stringify(allData);
+      $('#face_metadata').val(sendData);
+      var formData = $('#new_face').serialize();
+      console.log(formData);
+      $('#new_face').submit();
+      /*
+      $.ajax({
+        url: "/upload",
+        dataType: "JSON",
+        data: sendData,
+        type: "POST",
+        success: function (data) {
+          console.log(data);
+          },
+        error: function (e) {
+          console.log(e);
+        }
+      });
+      */
+    }
+  }
+</script>
