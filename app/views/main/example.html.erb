@@ -5,7 +5,9 @@
   <p class="bg-success"><%= flash[:msg] %></p>
 <% end %>
 <div id="content">
-  <h2>미남이시네요</h2>
+  <div class="logo">
+    <%= image_tag "hansome.jpg" %>
+  </div>
   <div id="container">
     <canvas id="image" width="625" height="500"></canvas>
     <canvas id="overlay" width="625" height="500"></canvas>
@@ -17,7 +19,7 @@
     Metadata: <%= f.text_area :metadata %>
   <% end %>
   <input type="button" class="btn" value="analysis start" onclick="animate()"></input>
-  <!--  <input type="button" class="btn" value="manually select face" onclick="selectBox()"></input> -->
+  <!-- <input type="button" class="btn" value="manually select face" onclick="selectBox()"></input> -->
   <input type="button" id="upload_btn" class="btn" value="Upload" onclick="upload()"></input>
   <!--  <input type="file" class="btn" id="files" name="files[]" /> -->
   <script>
@@ -45,7 +47,6 @@
     var drawRequest;
 
     function animate(box) {
-      overlayCC.clearRect(0, 0, 720, 576);
       ctrack.reset();
       ctrack.resetFindPositions();
       ctrack.start(document.getElementById('image'), box);
@@ -121,7 +122,7 @@
 
     // update stats on iteration
     document.addEventListener("clmtrackrIteration", function(event) {
-      stats.update();
+      //stats.update();
     }, false);
 
     // manual selection of faces (with jquery imgareaselect plugin)

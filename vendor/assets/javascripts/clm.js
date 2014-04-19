@@ -43,9 +43,9 @@ var clm = {
 		It's possible to experiment with the sequence of variances used for the finding the maximum in the KDE.
 		This sequence is pretty arbitrary, but was found to be okay using some manual testing.
 		*/
-		var varianceSeq = [10,5,1];
+		//var varianceSeq = [10,5,1];
 		//var varianceSeq = [3,1.5,0.75];
-		//var varianceSeq = [6,3,0.75];
+		var varianceSeq = [6,3,0.75];
 		var PDMVariance = 0.7;
 		
 		var relaxation = 0.1;
@@ -696,11 +696,7 @@ var clm = {
 		}
 
 		this.getFindPositions = function() {
-		  if (first) {
-		    return false;
-      } else {
-        return findPositions;
-      }
+      return findPositions;
     }
 
     this.resetFindPositions = function() {
@@ -967,6 +963,7 @@ var clm = {
 			if (comp.length > 0) {
 				candidate = comp[0];
 			} else {
+			  first = true;
 				return false;
 			}
 			
@@ -1085,6 +1082,11 @@ var clm = {
 		// get initial starting point for model
 		var getInitialPosition = function(element, box) {
 			var translateX, translateY, scaling, rotation;
+      scoringHistory = [];
+      for (var i = 0;i < currentParameters.length;i++) {
+        currentParameters[i] = 0;
+        previousParameters = [];
+      }
 			if (box) {
 				candidate = {x : box[0], y : box[1], width : box[2], height : box[3]};
 			} else {
@@ -1218,8 +1220,10 @@ var clm = {
       console.log("score = ");
       console.log(meanscore);
 			findPositions.push(currentPositions);
-			//console.log(findPositions);
+			console.log(findPositions);
 			
+      //first = true;
+
 			return [scaling, rotation, translateX, translateY];
 		}
 		

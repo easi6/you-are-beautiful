@@ -36,9 +36,9 @@ var jsfeat_face = function(image) {
     
     jsfeat.imgproc.compute_integral_image(img_u8, ii_sum, ii_sqsum, null);
 
-    var rects = jsfeat.haar.detect_multi_scale(ii_sum, ii_sqsum, ii_tilted, null, img_u8.cols, img_u8.rows, classifier, 1.15, 2);
+    var rects = jsfeat.haar.detect_multi_scale(ii_sum, ii_sqsum, ii_tilted, null, img_u8.cols, img_u8.rows, classifier, 1.20, 1);
     
-    rects = jsfeat.haar.group_rectangles(rects, 1);
+    rects = jsfeat.haar.group_rectangles(rects, -1);
     
     var rl = rects.length;
     
@@ -51,7 +51,11 @@ var jsfeat_face = function(image) {
               if (rects[i].confidence > best.confidence) best = rects[i];
           }
       }
-      return [best];
+      console.log(best.neighbors);
+      if (best.neighbors < 2)
+        return false
+      else
+        return [best];
     } else {
       return false;
     }
