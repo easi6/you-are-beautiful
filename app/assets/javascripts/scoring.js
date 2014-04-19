@@ -84,6 +84,7 @@ function score(position){
   var ratioScore5 = 11-(Math.abs(1.76-(lowLip/upLip))/1.76*11);
   var ratioScore6 = 15-(Math.abs(1.58-(noseLengthW/rightEye))/1.58*15);
   var ratioScore7 = 15-((Math.abs(0.83-(faceHeight/faceWidth))/0.83)*15);
+  var ratio = ratioScore7/15;
 
   var ratioScore1b = 15-(Math.abs(1.43-lengthBtneye/leftEye)/1.43*15);
   var ratioScore6b = 15-(Math.abs(1.58-noseLengthW/leftEye)/1.58*15);
@@ -91,21 +92,21 @@ function score(position){
   var diff = 10-(Math.abs((ratioScore1+ratioScore6) - (ratioScore1b+ratioScore6b))*10);
 
   var sum = (ratioScore1+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6+ratioScore7)+(ratioScore1b+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6b+ratioScore7)
-  var avg = (sum/2)+diff;
+  var avg = ((sum/2)+diff)*ratio;
 
 
-  console.log(ratioScore1);
-  console.log(ratioScore2);
-  console.log(ratioScore3);
-  console.log(ratioScore4);
-  console.log(ratioScore5);
-  console.log(ratioScore6);
-  console.log(ratioScore7);
-  console.log(ratioScore1b);
-  console.log(ratioScore6b);
-  console.log("diff:"+diff);
-  console.log("score:"+avg);
-  console.log("sum:"+sum);
+  //console.log(ratioScore1);
+  //console.log(ratioScore2);
+  //console.log(ratioScore3);
+  //console.log(ratioScore4);
+  //console.log(ratioScore5);
+  //console.log(ratioScore6);
+  //console.log(ratioScore7);
+  //console.log(ratioScore1b);
+  //console.log(ratioScore6b);
+  //console.log("diff:"+diff);
+  //console.log("score:"+avg);
+  //console.log("sum:"+sum);
 
   return avg;
 
