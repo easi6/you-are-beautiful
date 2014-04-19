@@ -23,9 +23,9 @@
 
     var img = new Image();
     img.onload = function() {
-      cc.drawImage(img,0,0,625, 625);
+      cc.drawImage(img,0,0,960, 600);
     };
-    img.src = 'demo/TheBeatles.jpg';
+    img.src = 'demo/taehee.jpg';
 
     var ctrack = new clm.tracker({stopOnConvergence : true, scoreThreshold : 0.5});
     ctrack.init(pModel);
@@ -58,10 +58,16 @@
       ctrack.stop();
       var allPos = ctrack.getFindPositions();
       console.log(allPos);
-      if (allPos.length > 0)
-        alert("Tracking done!");
-      else
+      if (allPos) { 
+        alert("Tracking done!"); 
+        for(var i=0; i<allPos.length; i++) {
+          var scr = score(allPos[i]);
+          console.log(scr);
+        }
+      }
+      else {
         alert("The tracking had problems with finding a face in this image. Try selecting the face in the image manually.")
+      }
     }, false);
 
     // detect if tracker loses tracking of face
@@ -69,7 +75,15 @@
       ctrack.stop();
       var allPos = ctrack.getFindPositions();
       console.log(allPos);
-      alert("The tracking had problems converging on a face in this image. Try selecting the face in the image manually.")
+      if (allPos) { 
+        alert("Tracking done!"); 
+        for(var i=0; i<allPos.length; i++) {
+          var scr = score(allPos[i]);
+          console.log(scr);
+        }
+      } else {
+        alert("The tracking had problems converging on a face in this image. Try selecting the face in the image manually.")
+      }
     }, false);
 
     // detect if tracker has converged

@@ -52,6 +52,15 @@ function score(position){
                               
 
 
+<<<<<<< HEAD
+  var ratioScore1 = Math.abs(1-lengthBtneye/rightEye)*15;
+  var ratioScore2 = (Math.abs((noseLengthV/noseLengthW)-0.64))/0.64*15;
+  var ratioScore3 = (Math.abs(0.8-(noseLengthV/noseToJaw))/0.8*15;
+  var ratioScore4 = (Math.abs(2-(lipLengthW/lipLengthV)))/2*4;
+  var ratioScore5 = Math.abs(1-(lowLip/upLip))*11;
+  var ratioScore6 = Math.abs(1-(noseLengthW/rightEye))*15;
+  var ratioScore7 = (Math.abs(0.809-(faceHeight/faceWidth))/0.809)*15;
+=======
   var ratioScore1 = Math.abs(lengthBtneye-rightEye)*15;
   var ratioScore2 = Math.abs((noseLengthV/noseLengthW)-0.64)*15;
   var ratioScore3 = Math.abs(0.8-(noseLengthV/noseToJaw)*15;
@@ -59,6 +68,7 @@ function score(position){
   var ratioScore5 = Math.abs(1-(lowLip/upLip))*11;
   var ratioScore6 = Math.abs(1-(noseLengthW/rightEye))*15;
   var ratioScore7 = Math.abs(0.809-(faceHeight/faceWidth))*15;
+>>>>>>> 4e9a30ccf567cf2d70c4c030f747bc747bd2c1c9
 
   var ratioScore1b = Math.abs(lengthBtneye-leftEye)*15;
   var ratioScore6b = Math.abs(1-(noseLengthW/rightEye))*15;
@@ -66,7 +76,11 @@ function score(position){
   var diff = Math.abs((ratioScore1+ratioScore6) - (ratioScore1b+ratioScore6b))*10;
 
   var sum = (ratioScore1+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6+ratioScore7)+(ratioScore1b+ratioScore2+ratioScore3+ratioScore4+ratioScore5+ratioScore6b+ratioScore7)
+<<<<<<< HEAD
+  var avg = (sum+diff)/2
+=======
   var avg = sum/2
+>>>>>>> 4e9a30ccf567cf2d70c4c030f747bc747bd2c1c9
 
 
   return avg;
@@ -74,7 +88,11 @@ function score(position){
 
 };
 
+<<<<<<< HEAD
+module.exports = score;
+=======
 module.exports = scoring;
+>>>>>>> 4e9a30ccf567cf2d70c4c030f747bc747bd2c1c9
 
 
 
