@@ -111,6 +111,7 @@ module FaceConverter
           x = "+#{position[33][X].to_i - img["width"].to_i * ratio / 2}"
           y = "+#{position[21][Y].to_i - img["height"].to_i * ratio * 1.5}"
           size = "#{img["width"] * ratio}x#{img["height"] * ratio}"
+          next
         end
 
         #puts "composite -geometry #{size}#{x}#{y} #{merged} #{result} #{result}"
