@@ -19,7 +19,7 @@
     <%= f.hidden_field :metadata %>
   <% end %>
   <br>
-  <input type="button" class="btn btn-lg btn-danger btn-block" value="얼굴 순위  매기기" onclick="animate()"></input>
+  <input id="upload_btn" type="button" class="btn btn-lg btn-danger btn-block" value="얼굴 순위  매기기" onclick="animate()"></input>
   <!-- <input type="button" class="btn" value="manually select face" onclick="selectBox()"></input> -->
   <!-- <input type="button" id="upload_btn" class="btn btn-primary btn-lg" value="얼굴 순위 보기" onclick="upload()"></input> -->
   <!--  <input type="file" class="btn" id="files" name="files[]" /> -->
@@ -164,7 +164,7 @@
           var cc = canvas.getContext('2d');
           var img = new Image();
           img.onload = function() {
-            $('#upload_btn').attr('disabled','disabled');
+            $('#upload_btn').removeAttr('disabled');
             if (img.height > 500 || img.width > 700) {
               var rel = img.height/img.width;
               var neww = 700;

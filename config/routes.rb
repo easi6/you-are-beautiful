@@ -2,6 +2,7 @@ Fb::Application.routes.draw do
   root :to => "main#example"
 
   post "upload" => "main#upload"
+  post "upload_en" => "main#upload_en"
   patch "oauth_with_facebook/:face_id" => "main#oauth_with_facebook", :as => "oauth_with_facebook"
   get "share_with_facebook/:face_id" => "main#share_with_facebook", :as => "share_with_facebook"
 

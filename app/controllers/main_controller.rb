@@ -4,7 +4,8 @@ class MainController < ApplicationController
   end
 
   def en
-    @faces = Face.all
+    @face = Face.new
+    @faces = Face.all.order("created_at desc")
   end
 
   # data format
@@ -33,6 +34,24 @@ class MainController < ApplicationController
       #render :status => 500, :json => {"msg" => "얼굴 인식에 실패했습니다. #CANNOT_CONVERT"}
       flash[:error] = "얼굴 인식에 실패했습니다.#CANNOT_CONVERT"
       redirect_to example_path
+    end
+  end
+
+  def upload_en
+    #face = Face.new(params[:face])
+    face = Face.new
+    face.message = params[:face][:message]
+    face.photo = params[:face][:photo]
+    face.metadata = params[:face][:metadata]
+
+    require 'face-converter'
+    if face.save && FaceConverter.convert(face.photo.path, face.metadata)
+      #render :json => {"face" => {"id" => face.id, "message" => face.message, "photo_url" => face.photo.url(:converted)}}
+      redirect_to en_path
+    else
+      #render :status => 500, :json => {"msg" => "얼굴 인식에 실패했습니다. #CANNOT_CONVERT"}
+      flash[:error] = "얼굴 인식에 실패했습니다.#CANNOT_CONVERT"
+      redirect_to en_path
     end
   end
 
