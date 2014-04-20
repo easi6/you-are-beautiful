@@ -5,7 +5,9 @@
   <p class="bg-success"><%= flash[:msg] %></p>
 <% end %>
   <div class="logo">
-    <%= image_tag "hansome.jpg" %>
+    <a href="/">
+      <%= image_tag "hansome.jpg" %>
+    </a>
   </div>
 <p>
 <%= image_tag @face.photo.url(:converted), :class => "img-rounded", :style => "width: 100%" %>
