@@ -44,7 +44,7 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 gem 'thin'
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 3.3.4'
 gem 'jquery-migrate-rails'
 gem 'paperclip'
 gem 'koala'

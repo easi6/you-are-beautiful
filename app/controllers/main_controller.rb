@@ -27,9 +27,23 @@ class MainController < ApplicationController
     face.metadata = params[:face][:metadata]
 
     require 'face-converter'
-    if face.save && FaceConverter.convert(face.photo.path, face.metadata)
+    if face.save # && FaceConverter.convert(face.photo.path, face.metadata)
+      dirPath = "#{File.dirname(face.photo.path)}/../converted/"
+      fileName = File.basename(face.photo.path)
+      executePath = "#{Rails.root}/lib/CV_PJ/src/test"
+      # execute from shell
+      rlt = %x(#{Rails.root}/lib/CV_PJ/src/test #{dirPath} #{fileName})
+      Rails.logger.info(dirPath)
+      Rails.logger.info(fileName)
+      Rails.logger.info("rlt = " + rlt.to_s)
+      if rlt 
+        redirect_to face_path(face.id)
+      else
+        flash[:error] = "얼굴 인식에 실패했습니다.#CANNOT_CONVERT"
+        redirect_to example_path
+      end
       #render :json => {"face" => {"id" => face.id, "message" => face.message, "photo_url" => face.photo.url(:converted)}}
-      redirect_to face_path(face.id)
+      #redirect_to face_path(face.id)
     else
       #render :status => 500, :json => {"msg" => "얼굴 인식에 실패했습니다. #CANNOT_CONVERT"}
       flash[:error] = "얼굴 인식에 실패했습니다.#CANNOT_CONVERT"

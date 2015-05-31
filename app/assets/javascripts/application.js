@@ -35,5 +35,5 @@
 //= require ext_js/BlobBuilder.min
 //= require ext_js/Filesaver.min
 //
-//= require bootstrap
+//= require bootstrap-sprockets
 //= require scoring

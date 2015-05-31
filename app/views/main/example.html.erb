@@ -5,9 +5,9 @@
   <p class="bg-success"><%= flash[:msg] %></p>
 <% end %>
 <div id="content">
-  <div class="logo">
+  <div class="logo" style="height:0px; margin-top:80px;">
     <a href="/">
-      <%= image_tag "hansome.jpg" %>
+      <!-- <%= image_tag "hansome.jpg" %> -->
     </a>
   </div>
   <div id="container">
@@ -16,12 +16,15 @@
   </div>
   <br/>
   <%= form_for(@face, :url => upload_path) do |f| %>
-    <strong>얼굴 사진 올리기</strong> <%= f.file_field :photo, :class => "btn btn-primary" %>
+    <span class="btn btn-file btn-primary">Browse <%= f.file_field :photo %>
+    </span>
     <%= f.hidden_field :message %>
     <%= f.hidden_field :metadata %>
   <% end %>
   <br>
-  <input id="upload_btn" type="button" class="btn btn-lg btn-danger btn-block" value="얼굴 순위  매기기" onclick="animate()"></input>
+  <!-- <input id="upload_btn" type="button" class="btn btn-lg btn-danger btn-block" value="얼굴 순위  매기기" onclick="animate()"></input> -->
+  <!-- <input id="upload_btn" type="button" class="btn btn-lg btn-danger btn-block" value="Get Score" onclick="start_animate()"></input> -->
+  <input id="upload_btn" type="button" class="btn btn-lg btn-danger btn-block" value="Get Score" onclick="upload()"></input>
   <!-- <input type="button" class="btn" value="manually select face" onclick="selectBox()"></input> -->
   <!-- <input type="button" id="upload_btn" class="btn btn-primary btn-lg" value="얼굴 순위 보기" onclick="upload()"></input> -->
   <!--  <input type="file" class="btn" id="files" name="files[]" /> -->
@@ -31,10 +34,12 @@
     var overlayCC = overlay.getContext('2d');
 
     var img = new Image();
+    //img.src = 'demo/taehee4.jpg';
+    img.src = 'demo/taehee.jpg';
     img.onload = function() {
       cc.drawImage(img,0,0,960, 600);
+      //cc.drawImage(img,0,0);
     };
-    img.src = 'demo/taehee.jpg';
     $('#upload_btn').attr('disabled','disabled');
 
     var ctrack = new clm.tracker({stopOnConvergence : true, scoreThreshold : 0.5});
@@ -49,7 +54,7 @@
 
     var drawRequest;
 
-    function animate(box) {
+    function start_animate(box) {
       ctrack.reset();
       ctrack.resetFindPositions();
       ctrack.start(document.getElementById('image'), box);
@@ -92,14 +97,15 @@
       var allPos = ctrack.getFindPositions();
       console.log(allPos);
       if (allPos) { 
-        //alert("Tracking done!"); 
+        alert("Tracking done!"); 
         for(var i=0; i<allPos.length; i++) {
           var scr = score(allPos[i]);
           console.log(scr);
         }
-        if ($('#face_photo').val())
-          $('#upload_btn').removeAttr('disabled');
-        upload();
+        return false;
+        //if ($('#face_photo').val())
+        //  $('#upload_btn').removeAttr('disabled');
+        //upload();
       } else {
           alert("얼굴 인식에 실패하였습니다. 다른 이미지를 선택해 주세요.");
       }
@@ -119,9 +125,11 @@
           var scr = score(allPos[i]);
           console.log(scr);
         }
+        /*
         if ($('#face_photo').val())
           $('#upload_btn').removeAttr('disabled');
         upload();
+        */
         } else {
           alert("얼굴 인식에 실패하였습니다. 다른 이미지를 선택해 주세요.");
         }
@@ -220,39 +228,25 @@
 
     function upload() {
       console.log("upload!");
-      var allPos = ctrack.getFindPositions();
-      console.log(allPos);
-      if (allPos) { 
+      //var allPos = ctrack.getFindPositions();
+      //console.log(allPos);
       //  alert("Tracking done!"); 
-        var allData = [];
-        for(var i=0; i<allPos.length; i++) {
-          var scr = score(allPos[i]);
-          console.log(scr);
-          var data = {}
-          data.point = scr;
-          data.position = allPos[i];
-          allData.push(data); 
-        }
-        var sendData = JSON.stringify(allData);
-        $('#face_metadata').val(sendData);
-        //var formData = $('#new_face').serialize();
-        //console.log(formData);
-        $('#new_face').submit();
-        /*
-        $.ajax({
-          url: "/upload",
-          dataType: "JSON",
-          data: sendData,
-          type: "POST",
-          success: function (data) {
-            console.log(data);
-            },
-          error: function (e) {
-            console.log(e);
-          }
-        });
-        */
+      /*
+      var allData = [];
+      for(var i=0; i<allPos.length; i++) {
+        var scr = score(allPos[i]);
+        console.log(scr);
+        var data = {}
+        data.point = scr;
+        data.position = allPos[i];
+        allData.push(data); 
       }
+      var sendData = JSON.stringify(allData);
+      $('#face_metadata').val(sendData);
+      */
+      //var formData = $('#new_face').serialize();
+      //console.log(formData);
+      $('#new_face').submit();
     }
   </script>
 </div>
